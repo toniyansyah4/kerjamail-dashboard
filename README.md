@@ -41,12 +41,28 @@ Follow these steps to set up the Laravel project:
     php artisan migrate
     ```
 
-6. **Build Frontend Assets**
+6. **Seed the Database**
+    ```bash
+    php artisan db:seed
+    ```
+    - This will populate the database with initial data, including a default user.
+
+7. **Default User Credentials**
+    - Email: `admin@mail.com`
+    - Password: `admin1234`
+    - Role : `Admin`
+
+    - Email: `user@mail.com`
+    - Password: `user1234`
+    - Role : `User`
+    
+
+8. **Build Frontend Assets**
     ```bash
     npm run dev
     ```
 
-7. **Start the Development Server**
+9. **Start the Development Server**
     ```bash
     php artisan serve
     ```
