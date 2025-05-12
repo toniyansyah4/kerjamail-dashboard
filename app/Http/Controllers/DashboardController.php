@@ -14,12 +14,18 @@ class DashboardController extends Controller
     public function index()
     {
         $user = User::find(Auth::id());
+        $registerDomainsCount = Domain::where('user_id', Auth::id())->count();
         $activeDomainsCount = Domain::where('user_id', Auth::id())->where('status', true)->count();
-        $registeredMailboxesCount = Mailbox::where('user_id', Auth::id())->count();
-        $usedStorage = Mailbox::where('user_id', Auth::id())->sum('quota'); // Assuming quota is in MB
+        $registeredMailboxesCount = Mailbox::whereHas('domain', function ($q) {
+            $q->where('user_id', Auth::id()); 
+        })->count();
+        $usedStorage = Mailbox::whereHas('domain', function ($q) {
+            $q->where('user_id', Auth::id()); 
+        })->sum('quota'); // Assuming quota is in MB
 
         return Inertia::render('Dashboard', [
             'auth' => $user,
+            'registerDomainsCount' => $registerDomainsCount,
             'activeDomainsCount' => $activeDomainsCount,
             'registeredMailboxesCount' => $registeredMailboxesCount,
             'usedStorage' => $usedStorage,
@@ -29,12 +35,14 @@ class DashboardController extends Controller
     public function dashboardAdmin()
     {
         $user = User::find(Auth::id());
+        $registerDomainsCount = Domain::count();
         $activeDomainsCount = Domain::where('status', true)->count();
         $registeredMailboxesCount = Mailbox::count();
         $usedStorage = Mailbox::sum('quota'); // Assuming quota is in MB
 
-        return Inertia::render('admin.dashboard', [
+        return Inertia::render('Admin/Dashboard', [
             'auth' => $user,
+            'registerDomainsCount' => $registerDomainsCount,
             'activeDomainsCount' => $activeDomainsCount,
             'registeredMailboxesCount' => $registeredMailboxesCount,
             'usedStorage' => $usedStorage,
