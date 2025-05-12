@@ -50,15 +50,3 @@ Follow these steps to set up the Laravel project:
     ```bash
     php artisan serve
     ```
-
-### Additional Commands
-- **Run Tests**
-  ```bash
-  php artisan test
-  ```
-
-- **Compile Assets for Production**
-  ```bash
-  npm run build
-  ```
-
